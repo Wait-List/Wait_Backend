@@ -22,4 +22,5 @@ export class ListService {
 
     await this.listRepository.delete(id);
   }
+
 }
