@@ -16,11 +16,10 @@ export class ListService {
   async deleteList(id: number, user: User) {
     const list = await this.listRepository.findById(id);
 
-    if (!list) throw ListNotFoudException;
+    if (list == null) throw ListNotFoudException;
 
     if (list.user.accountId !== user.accountId) throw UserMissMatchException;
 
     await this.listRepository.delete(id);
   }
-
 }
