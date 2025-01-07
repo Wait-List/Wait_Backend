@@ -25,8 +25,8 @@ export class ListController {
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete()
-  async deleteList(@Query('id') id: number, @Req() req) {
+  async deleteList(@Query("id") id: number, @Req() req) {
     const user = req.user;
-    await this.listService.deleteList(id, user)
+    await this.listService.deleteList(id, user);
   }
 }

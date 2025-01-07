@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { List } from './list.entity';
-import { User } from '../user/user.entity';
-import { CreateListRequest } from './dto/request/createListRequest';
+import { Injectable } from "@nestjs/common";
+import { Repository } from "typeorm";
+import { InjectRepository } from "@nestjs/typeorm";
+import { List } from "./list.entity";
+import { User } from "../user/user.entity";
+import { CreateListRequest } from "./dto/request/createListRequest";
 
 @Injectable()
 export class ListRepository {
@@ -14,11 +14,11 @@ export class ListRepository {
 
   async save(request: CreateListRequest, user: User): Promise<List> {
     const list = Object.assign(new List(), {
-        content: request.content,
-        date: new Date(request.date),
-        time: request.time,
-        user,
-      });
+      content: request.content,
+      date: new Date(request.date),
+      time: request.time,
+      user,
+    });
     return await this.listRepository.save(list);
   }
 
@@ -31,5 +31,4 @@ export class ListRepository {
   async delete(id: number): Promise<void> {
     await this.listRepository.delete(id);
   }
-  
 }
