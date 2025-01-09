@@ -4,12 +4,13 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  Patch,
   Post,
   Query,
   Req,
 } from "@nestjs/common";
-import { CreateListRequest } from "./dto/request/createListRequest";
-import { ListService } from "./list.service";
+import { ListRequest } from "./dto/request/listRequest";
+import { ListService } from "src/app.module";
 
 @Controller("list")
 export class ListController {
@@ -17,7 +18,7 @@ export class ListController {
 
   @HttpCode(HttpStatus.CREATED)
   @Post()
-  async createList(@Body() request: CreateListRequest, @Req() req) {
+  async createList(@Body() request: ListRequest, @Req() req) {
     const user = req.user;
     const createdList = await this.listService.createList(request, user);
     return createdList;
@@ -28,5 +29,15 @@ export class ListController {
   async deleteList(@Query("id") id: number, @Req() req) {
     const user = req.user;
     await this.listService.deleteList(id, user);
+  }
+
+  @Patch()
+  async modifyList(
+    @Query("id") id: number,
+    @Body() request: ListRequest,
+    @Req() req,
+  ) {
+    const user = req.user;
+    await this.listService.modifyList(id, request, user);
   }
 }

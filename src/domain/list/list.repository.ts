@@ -3,7 +3,7 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { List } from "./list.entity";
 import { User } from "../user/user.entity";
-import { CreateListRequest } from "./dto/request/createListRequest";
+import { ListRequest } from "../list/dto/request/listRequest";
 
 @Injectable()
 export class ListRepository {
@@ -12,13 +12,7 @@ export class ListRepository {
     private readonly listRepository: Repository<List>,
   ) {}
 
-  async save(request: CreateListRequest, user: User): Promise<List> {
-    const list = Object.assign(new List(), {
-      content: request.content,
-      date: new Date(request.date),
-      time: request.time,
-      user,
-    });
+  async save(list: List): Promise<List> {
     return await this.listRepository.save(list);
   }
 
