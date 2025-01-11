@@ -15,6 +15,9 @@ export class List {
   @Column({ nullable: false })
   time: string;
 
+  @Column({ nullable: false })
+  status: Boolean = false;
+
   @ManyToOne(() => User, (user) => user.lists)
   user: User;
 }

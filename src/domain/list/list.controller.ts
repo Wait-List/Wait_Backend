@@ -10,7 +10,7 @@ import {
   Req,
 } from "@nestjs/common";
 import { ListRequest } from "./dto/request/listRequest";
-import { ListService } from "src/app.module";
+import { ListService } from "./list.service";
 
 @Controller("list")
 export class ListController {
@@ -39,5 +39,10 @@ export class ListController {
   ) {
     const user = req.user;
     await this.listService.modifyList(id, request, user);
+  }
+
+  @Patch("/status")
+  async changeStatus(@Query("id") id: number, @Req() req) {
+    const user = req.user;
   }
 }
