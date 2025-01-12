@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsDateString, MinDate, IsString } from "class-validator";
+import { IsNotEmpty, IsDateString, IsString } from "class-validator";
 import { Type } from "class-transformer";
 
 export class ListRequest {
