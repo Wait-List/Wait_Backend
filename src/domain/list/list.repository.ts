@@ -22,6 +22,23 @@ export class ListRepository {
     });
   }
 
+  async findAllByUser(user: User): Promise<List[]> {
+    return this.listRepository.find({
+      where: { user },
+      order: { date: "ASC" },
+    });
+  }
+
+  async findAllByUserAndStatus(user: User, status: boolean): Promise<List[]> {
+    return this.listRepository.find({
+      where: {
+        user,
+        status,
+      },
+      order: { date: "ASC" },
+    });
+  }
+
   async delete(id: number): Promise<void> {
     await this.listRepository.delete(id);
   }

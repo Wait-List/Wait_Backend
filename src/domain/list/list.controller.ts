@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   HttpCode,
   HttpStatus,
   Patch,
@@ -44,5 +45,12 @@ export class ListController {
   @Patch("/status")
   async changeStatus(@Query("id") id: number, @Req() req) {
     const user = req.user;
+    await this.changeStatus(id, user);
+  }
+
+  @Get("/left")
+  async leftList(@Req() req) {
+    const user = req.user;
+    await this.leftList(user);
   }
 }
