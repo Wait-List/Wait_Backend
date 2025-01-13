@@ -52,6 +52,11 @@ export class ListService {
     return list;
   }
 
+  async allList(user: User) {
+    const list = this.listRepository.findAllByUser(user);
+    return list;
+  }
+
   async checkUser(list: List, user: User): Promise<void> {
     if (list.user.accountId !== user.accountId) throw UserMissMatchException;
   }

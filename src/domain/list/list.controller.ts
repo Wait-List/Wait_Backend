@@ -45,12 +45,18 @@ export class ListController {
   @Patch("/status")
   async changeStatus(@Query("id") id: number, @Req() req) {
     const user = req.user;
-    await this.changeStatus(id, user);
+    await this.listService.changeStatus(id, user);
   }
 
   @Get("/left")
   async leftList(@Req() req) {
     const user = req.user;
-    await this.leftList(user);
+    await this.listService.leftList(user);
+  }
+
+  @Get("/all")
+  async allList(@Req() req) {
+    const user = req.user;
+    await this.listService.allList(user);
   }
 }
