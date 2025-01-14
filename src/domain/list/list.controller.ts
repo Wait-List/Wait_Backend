@@ -20,16 +20,14 @@ export class ListController {
   @HttpCode(HttpStatus.CREATED)
   @Post()
   async createList(@Body() request: ListRequest, @Req() req) {
-    const user = req.user;
-    const createdList = await this.listService.createList(request, user);
+    const createdList = await this.listService.createList(request, req.user);
     return createdList;
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete()
   async deleteList(@Query("id") id: number, @Req() req) {
-    const user = req.user;
-    await this.listService.deleteList(id, user);
+    await this.listService.deleteList(id, req.user);
   }
 
   @Patch()
@@ -38,25 +36,21 @@ export class ListController {
     @Body() request: ListRequest,
     @Req() req,
   ) {
-    const user = req.user;
-    await this.listService.modifyList(id, request, user);
+    await this.listService.modifyList(id, request, req.user);
   }
 
   @Patch("/status")
   async changeStatus(@Query("id") id: number, @Req() req) {
-    const user = req.user;
-    await this.listService.changeStatus(id, user);
+    await this.listService.changeStatus(id, req.user);
   }
 
   @Get("/left")
   async leftList(@Req() req) {
-    const user = req.user;
-    await this.listService.leftList(user);
+    await this.listService.leftList(req.user);
   }
 
   @Get("/all")
   async allList(@Req() req) {
-    const user = req.user;
-    await this.listService.allList(user);
+    await this.listService.allList(req.user);
   }
 }
