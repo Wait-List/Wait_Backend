@@ -3,7 +3,6 @@ import { Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { List } from "./list.entity";
 import { User } from "../user/user.entity";
-import { ListRequest } from "../list/dto/request/listRequest";
 
 @Injectable()
 export class ListRepository {
