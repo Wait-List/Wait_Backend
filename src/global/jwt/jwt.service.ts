@@ -17,8 +17,8 @@ export class JWTService {
   async generateRefreshToken(accountId: string): Promise<string> {
     const payload = { accountId };
     const option: JwtSignOptions = {
-      secret: this.configService.get<string>("JWT_RE_SECRET"),
-      expiresIn: this.configService.get<string>("JWT_RE_EXE"),
+      secret: this.configService.get<string>("SECRET_KEY"),
+      expiresIn: this.configService.get<string>("REFRESH_EXP"),
     };
 
     return this.jwtService.sign(payload, option);
