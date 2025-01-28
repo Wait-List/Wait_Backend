@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { ListRepository } from "./list.repository";
-import { ListRequest } from "./dto/request/listRequest";
+import { ListRequest } from "./dto/request/list-request";
 import { User } from "../user/user.entity";
 import { List } from "./list.entity";
 import { UserMissMatchException } from "src/global/error/custom-exeption/user-miss-match-exception";

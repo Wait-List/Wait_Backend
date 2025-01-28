@@ -10,7 +10,7 @@ import {
   Query,
   Req,
 } from "@nestjs/common";
-import { ListRequest } from "./dto/request/listRequest";
+import { ListRequest } from "./dto/request/list-request";
 import { ListService } from "./list.service";
 
 @Controller("list")
