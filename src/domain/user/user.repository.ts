@@ -13,4 +13,8 @@ export class UserRepository {
   async save(user: User): Promise<User> {
     return await this.userRepository.save(user);
   }
+
+  async findOneByAccountId(accountId: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { accountId } });
+  }
 }
