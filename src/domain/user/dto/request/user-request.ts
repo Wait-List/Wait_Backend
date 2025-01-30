@@ -1,6 +1,6 @@
 import { IsNotEmpty } from "class-validator";
 
-export class SignUpRequest {
+export class UserRequest {
   @IsNotEmpty()
   accountId: string;
 
