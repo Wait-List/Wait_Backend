@@ -2,6 +2,8 @@ import { Module } from "@nestjs/common";
 import { ConfigModule } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from "./domain/user/user.module";
+import { ListModule } from "./domain/list/list.module";
+import { TokenModule } from "./global/jwt/jwt.module";
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import { UserModule } from "./domain/user/user.module";
       synchronize: Boolean(true),
     }),
     UserModule,
+    ListModule,
+    TokenModule,
   ],
   controllers: [],
   providers: [],
