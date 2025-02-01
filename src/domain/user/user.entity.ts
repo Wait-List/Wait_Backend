@@ -3,7 +3,7 @@ import { List } from "../list/list.entity";
 
 @Entity("tbl_user")
 export class User {
-  @PrimaryColumn()
+  @PrimaryColumn({ name: "account_id" })
   accountId: string;
 
   @Column()

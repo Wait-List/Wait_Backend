@@ -13,7 +13,7 @@ export class UserController {
     return this.userService.signUp(request);
   }
 
-  @Post("login")
+  @Post("signin")
   async logIn(@Body() request: UserRequest): Promise<TokenRespons> {
     return this.userService.signIn(request);
   }
