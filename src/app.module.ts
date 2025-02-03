@@ -4,6 +4,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserModule } from "./domain/user/user.module";
 import { ListModule } from "./domain/list/list.module";
 import { TokenModule } from "./global/jwt/jwt.module";
+import { AuthModule } from "./global/auth/auth.module";
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TokenModule } from "./global/jwt/jwt.module";
     UserModule,
     ListModule,
     TokenModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
