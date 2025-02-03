@@ -23,12 +23,4 @@ export class JWTService {
 
     return this.jwtService.sign(payload, option);
   }
-
-  async validateAccessToken(token: string): Promise<any> {
-    try {
-      return this.jwtService.verify(token);
-    } catch (error) {
-      return null;
-    }
-  }
 }
