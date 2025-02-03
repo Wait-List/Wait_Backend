@@ -13,7 +13,7 @@ export class ListService {
   async createList(request: ListRequest, user: User) {
     const list = Object.assign(new List(), {
       content: request.content,
-      date: new Date(request.date),
+      date: request.date,
       time: request.time,
       user,
     });
@@ -47,13 +47,13 @@ export class ListService {
   }
 
   async leftList(user: User) {
-    const list = this.listRepository.findAllByUserAndStatus(user, false);
+    const list = await this.listRepository.findAllByUserAndStatus(user, false);
 
     return list;
   }
 
   async allList(user: User) {
-    const list = this.listRepository.findAllByUser(user);
+    const list = await this.listRepository.findAllByUser(user);
     return list;
   }
 

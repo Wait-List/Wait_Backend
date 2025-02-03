@@ -6,8 +6,7 @@ export class ListRequest {
   @IsNotEmpty()
   content: string;
 
-  @Type(() => Date)
-  @IsDateString()
+  @IsDateString({}, { message: "날짜는 'YYYY-MM-DD' 형식이어야 합니다." })
   @IsNotEmpty()
   date: string;
 
