@@ -18,12 +18,14 @@ import { JwtAuthGuard } from "src/global/auth/auth.guarad";
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  // 회원가입
   @HttpCode(HttpStatus.CREATED)
   @Post("signup")
   async signUp(@Body() request: UserRequest): Promise<TokenRespons> {
     return this.userService.signUp(request);
   }
 
+  // 로그인
   @Post("signin")
   async logIn(@Body() request: UserRequest): Promise<TokenRespons> {
     return this.userService.signIn(request);
