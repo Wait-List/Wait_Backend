@@ -4,14 +4,12 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  UseGuards,
   UsePipes,
   ValidationPipe,
 } from "@nestjs/common";
 import { UserService } from "./user.service";
 import { TokenRespons } from "./dto/response/token-response";
 import { UserRequest } from "./dto/request/user-request";
-import { JwtAuthGuard } from "src/global/auth/auth.guarad";
 
 @Controller("user")
 @UsePipes(ValidationPipe)
