@@ -8,6 +8,7 @@ import { AlreadyExistAccountIdException } from "src/global/error/custom-exeption
 import { UserRequest } from "./dto/request/user-request";
 import { PasswordMissMatchException } from "src/global/error/custom-exeption/passworrd-miss-match-exception";
 import { UserNotFoudException } from "src/global/error/custom-exeption/user-not-found-exception";
+import { UserResponse } from "./dto/response/user-response";
 
 @Injectable()
 export class UserService {
@@ -50,5 +51,12 @@ export class UserService {
     const refreshToken = await this.jwtService.generateRefreshToken(accountId);
 
     return { accessToken, refreshToken };
+  }
+
+  async my(user: User): Promise<UserResponse> {
+    const response = new UserResponse();
+    response.accountId = user.accountId;
+
+    return response;
   }
 }
