@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { UserRepository } from "./user.repository";
 import * as bcrypt from "bcrypt";
 import { User } from "./user.entity";
@@ -8,6 +8,8 @@ import { AlreadyExistAccountIdException } from "src/global/error/custom-exeption
 import { UserRequest } from "./dto/request/user-request";
 import { PasswordMissMatchException } from "src/global/error/custom-exeption/passworrd-miss-match-exception";
 import { UserNotFoudException } from "src/global/error/custom-exeption/user-not-found-exception";
+import { PasswordRequest } from "./dto/request/password-request";
+import { PasswordCannotBeSameException } from "src/global/error/custom-exeption/password-cannot-same-exception";
 
 @Injectable()
 export class UserService {
@@ -50,5 +52,28 @@ export class UserService {
     const refreshToken = await this.jwtService.generateRefreshToken(accountId);
 
     return { accessToken, refreshToken };
+  }
+
+  async password(request: PasswordRequest, user: User) {
+    const nowUser = await this.userRepository.findOneByAccountId(
+      user.accountId,
+    );
+
+    if (!nowUser) throw UserNotFoudException;
+
+    const isCurrentPasswordValid = await bcrypt.compare(
+      request.password,
+      nowUser.password,
+    );
+
+    if (!isCurrentPasswordValid) throw PasswordMissMatchException;
+
+    if (request.password === request.newPassword)
+      throw PasswordCannotBeSameException;
+
+    const newPW = await bcrypt.hash(request.newPassword, 10);
+
+    nowUser.password = newPW;
+    await this.userRepository.save(nowUser);
   }
 }
