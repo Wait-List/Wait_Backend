@@ -36,7 +36,7 @@ export class UserController {
   }
 
   // 비밀번호 변경
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard())
   @Patch("password")
   async password(@Body() request: PasswordRequest, @GetUser() user: User) {
     return this.userService.password(request, user);
