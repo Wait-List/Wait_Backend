@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { MoreThan, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { List } from "./list.entity";
 import { User } from "../user/user.entity";
@@ -24,17 +24,22 @@ export class ListRepository {
   async findAllByUser(user: User): Promise<List[]> {
     return this.listRepository.find({
       where: { user },
-      order: { date: "ASC" },
+      order: { dateTime: "DESC" },
     });
   }
 
-  async findAllByUserAndStatus(user: User, status: boolean): Promise<List[]> {
+  async findAllByUserAndStatusAndDateTime(
+    user: User,
+    status: boolean,
+    dateTime: Date,
+  ): Promise<List[]> {
     return this.listRepository.find({
       where: {
         user,
         status,
+        dateTime: MoreThan(dateTime),
       },
-      order: { date: "ASC" },
+      order: { dateTime: "ASC" },
     });
   }
 

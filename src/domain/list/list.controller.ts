@@ -17,6 +17,7 @@ import { ListService } from "./list.service";
 import { GetUser } from "src/global/auth/get-user.decorator";
 import { User } from "../user/user.entity";
 import { JwtAuthGuard } from "src/global/auth/auth.guarad";
+import { List } from "./list.entity";
 
 @Controller("list")
 @UsePipes(ValidationPipe)
@@ -57,12 +58,12 @@ export class ListController {
   // 남은 리스트 조회
   @Get("/left")
   async leftList(@GetUser() user: User) {
-    await this.listService.leftList(user);
+    return await this.listService.leftList(user);
   }
 
   // 리스트 전체 조회
   @Get("/all")
   async allList(@GetUser() user: User) {
-    await this.listService.allList(user);
+    return await this.listService.allList(user);
   }
 }
