@@ -20,7 +20,7 @@ export class UserService {
 
   async signUp(request: UserRequest): Promise<TokenRespons> {
     if (await this.userRepository.findOneByAccountId(request.accountId))
-      AlreadyExistAccountIdException;
+      throw AlreadyExistAccountIdException;
 
     const { accountId, password } = request;
 
