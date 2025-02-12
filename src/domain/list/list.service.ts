@@ -65,13 +65,14 @@ export class ListService {
   }
 
   async checkUser(list: List, user: User) {
-    if (list.user.accountId !== user.accountId) throw UserMissMatchException;
+    if (list.user.accountId !== user.accountId)
+      throw new UserMissMatchException();
   }
 
   async listExist(id: number) {
     const list = await this.listRepository.findById(id);
 
-    if (list == null) throw ListNotFoudException;
+    if (list == null) throw new ListNotFoudException();
     return list;
   }
 }

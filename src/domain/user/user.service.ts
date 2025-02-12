@@ -20,7 +20,7 @@ export class UserService {
 
   async signUp(request: UserRequest): Promise<TokenRespons> {
     if (await this.userRepository.findOneByAccountId(request.accountId))
-      throw AlreadyExistAccountIdException;
+      throw new AlreadyExistAccountIdException();
 
     const { accountId, password } = request;
 
@@ -43,10 +43,10 @@ export class UserService {
 
     const user = await this.userRepository.findOneByAccountId(accountId);
 
-    if (!user) throw UserNotFoudException;
+    if (!user) throw new UserNotFoudException();
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) throw PasswordMissMatchException;
+    if (!isPasswordValid) throw new PasswordMissMatchException();
 
     const accessToken = await this.jwtService.generateAccessToken(accountId);
     const refreshToken = await this.jwtService.generateRefreshToken(accountId);
@@ -66,10 +66,10 @@ export class UserService {
       nowUser.password,
     );
 
-    if (!isCurrentPasswordValid) throw PasswordMissMatchException;
+    if (!isCurrentPasswordValid) throw new PasswordMissMatchException();
 
     if (request.password === request.newPassword)
-      throw PasswordCannotBeSameException;
+      throw new PasswordCannotBeSameException();
 
     const newPW = await bcrypt.hash(request.newPassword, 10);
 
