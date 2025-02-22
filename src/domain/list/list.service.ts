@@ -11,10 +11,11 @@ export class ListService {
   constructor(private readonly listRepository: ListRepository) {}
 
   async createList(request: ListRequest, user: User) {
+    const doneDate = new Date(`${request.date}T${request.time}:00`);
+
     const list = Object.assign(new List(), {
       content: request.content,
-      date: request.date,
-      time: request.time,
+      dateTime: doneDate,
       user,
     });
     await this.listRepository.save(list);
@@ -30,9 +31,10 @@ export class ListService {
     const list = await this.listExist(id);
     await this.checkUser(list, user);
 
+    const doneDate = new Date(`${request.date}T${request.time}:00`);
+
     list.content = request.content;
-    list.date = new Date(request.date);
-    list.time = request.time;
+    list.dateTime = doneDate;
 
     await this.listRepository.save(list);
   }
@@ -47,7 +49,12 @@ export class ListService {
   }
 
   async leftList(user: User) {
-    const list = await this.listRepository.findAllByUserAndStatus(user, false);
+    const date = new Date();
+    const list = await this.listRepository.findAllByUserAndStatusAndDateTime(
+      user,
+      false,
+      date,
+    );
 
     return list;
   }
@@ -57,14 +64,15 @@ export class ListService {
     return list;
   }
 
-  async checkUser(list: List, user: User): Promise<void> {
-    if (list.user.accountId !== user.accountId) throw UserMissMatchException;
+  async checkUser(list: List, user: User) {
+    if (list.user.accountId !== user.accountId)
+      throw new UserMissMatchException();
   }
 
-  async listExist(id: number): Promise<List> {
+  async listExist(id: number) {
     const list = await this.listRepository.findById(id);
 
-    if (list == null) throw ListNotFoudException;
+    if (list == null) throw new ListNotFoudException();
     return list;
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, ConflictException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { UserRepository } from "./user.repository";
 import * as bcrypt from "bcrypt";
 import { User } from "./user.entity";
@@ -9,6 +9,8 @@ import { UserRequest } from "./dto/request/user-request";
 import { PasswordMissMatchException } from "src/global/error/custom-exeption/passworrd-miss-match-exception";
 import { UserNotFoudException } from "src/global/error/custom-exeption/user-not-found-exception";
 import { UserResponse } from "./dto/response/user-response";
+import { PasswordRequest } from "./dto/request/password-request";
+import { PasswordCannotBeSameException } from "src/global/error/custom-exeption/password-cannot-same-exception";
 
 @Injectable()
 export class UserService {
@@ -19,7 +21,7 @@ export class UserService {
 
   async signUp(request: UserRequest): Promise<TokenRespons> {
     if (await this.userRepository.findOneByAccountId(request.accountId))
-      AlreadyExistAccountIdException;
+      throw new AlreadyExistAccountIdException();
 
     const { accountId, password } = request;
 
@@ -42,10 +44,10 @@ export class UserService {
 
     const user = await this.userRepository.findOneByAccountId(accountId);
 
-    if (!user) throw UserNotFoudException;
+    if (!user) throw new UserNotFoudException();
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) throw PasswordMissMatchException;
+    if (!isPasswordValid) throw new PasswordMissMatchException();
 
     const accessToken = await this.jwtService.generateAccessToken(accountId);
     const refreshToken = await this.jwtService.generateRefreshToken(accountId);
@@ -58,5 +60,28 @@ export class UserService {
     response.accountId = user.accountId;
 
     return response;
+  }
+
+  async password(request: PasswordRequest, user: User) {
+    const nowUser = await this.userRepository.findOneByAccountId(
+      user.accountId,
+    );
+
+    if (!nowUser) throw UserNotFoudException;
+
+    const isCurrentPasswordValid = await bcrypt.compare(
+      request.password,
+      nowUser.password,
+    );
+
+    if (!isCurrentPasswordValid) throw new PasswordMissMatchException();
+
+    if (request.password === request.newPassword)
+      throw new PasswordCannotBeSameException();
+
+    const newPW = await bcrypt.hash(request.newPassword, 10);
+
+    nowUser.password = newPW;
+    await this.userRepository.save(nowUser);
   }
 }

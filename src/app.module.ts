@@ -5,6 +5,8 @@ import { UserModule } from "./domain/user/user.module";
 import { ListModule } from "./domain/list/list.module";
 import { TokenModule } from "./global/jwt/jwt.module";
 import { AuthModule } from "./global/auth/auth.module";
+import { HttpExceptionFilter } from "./global/error/http-exception-filter";
+import { APP_FILTER } from "@nestjs/core";
 
 @Module({
   imports: [
@@ -28,6 +30,11 @@ import { AuthModule } from "./global/auth/auth.module";
     AuthModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}

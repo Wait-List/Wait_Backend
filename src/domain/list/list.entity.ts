@@ -15,16 +15,13 @@ export class List {
   @Column({ nullable: false })
   content: string;
 
-  @Column({ nullable: false, type: "timestamp" })
-  date: Date;
-
-  @Column({ nullable: false })
-  time: string;
+  @Column({ name: "date_time", nullable: false, type: "timestamp" })
+  dateTime: Date;
 
   @Column({ nullable: false, default: false })
   status: boolean;
 
   @ManyToOne(() => User, (user) => user.lists)
-  @JoinColumn({ name: "user_id", referencedColumnName: "accountId" })
+  @JoinColumn({ name: "user_id" })
   user: User;
 }

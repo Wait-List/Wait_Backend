@@ -4,6 +4,7 @@ import {
   Get,
   HttpCode,
   HttpStatus,
+  Patch,
   Post,
   UseGuards,
   UsePipes,
@@ -14,6 +15,8 @@ import { TokenRespons } from "./dto/response/token-response";
 import { UserRequest } from "./dto/request/user-request";
 import { JwtAuthGuard } from "src/global/auth/auth.guarad";
 import { UserResponse } from "./dto/response/user-response";
+import { AuthGuard } from "@nestjs/passport";
+import { PasswordRequest } from "./dto/request/password-request";
 import { GetUser } from "src/global/auth/get-user.decorator";
 import { User } from "./user.entity";
 
@@ -40,5 +43,12 @@ export class UserController {
   @Get("my")
   async my(@GetUser() user: User): Promise<UserResponse> {
     return this.userService.my(user);
+  }
+
+  // 비밀번호 변경
+  @UseGuards(AuthGuard())
+  @Patch("password")
+  async password(@Body() request: PasswordRequest, @GetUser() user: User) {
+    return this.userService.password(request, user);
   }
 }
